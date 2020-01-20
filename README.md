@@ -24,7 +24,9 @@ A quick map of what you can enter -
 Down the line...
 
 Countdown Window - 
+
 This shows your cue name and the countdown to 0.
 
 Timecode Window - 
-Shows you current timecode with a clock. It's the analog clock readout of your timecode that noone asked for.
+
+Shows you current timecode with an analog clock readout that noone asked for, but got anyway.
