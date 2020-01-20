@@ -22,3 +22,9 @@ A quick map of what you can enter -
 100000 = 00:10:00:00
 
 Down the line...
+
+Countdown Window - 
+This shows your cue name and the countdown to 0.
+
+Timecode Window - 
+Shows you current timecode with a clock. It's the analog clock readout of your timecode that noone asked for.
