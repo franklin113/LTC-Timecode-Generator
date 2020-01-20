@@ -9,6 +9,8 @@ There is some decent auto correct and some additional features for entering in t
 
 A quick map of what you can enter - 
 
+Naming a cue TOD will begin timecode at the current TOD. This MIGHT drift out of sync over long periods of time.
+
 1h = 01:00:00:00
 
 01h = 01:00:00:00
