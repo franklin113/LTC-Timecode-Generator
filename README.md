@@ -61,7 +61,9 @@ Audio Config -
 
 The Active Toggle is read only because under the hood I'm using that whenever you pause or stop. TD continues to send timecode out even when you pause so this was the best solution.
 
+### Window - 
 
+This just allows you to bring back the panels that you closed out of.
 
 
 
