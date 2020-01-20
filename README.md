@@ -40,3 +40,20 @@ Ctrl+click = 1 sec
 Ctrl+shift+click = 5 sec
 
 Click = 10 sec
+
+## Dropdown Menu -
+
+### File - 
+
+Save All saves the project which I don't recommend. It will most likely lock up briefly.  Ctrl.S also does this.
+
+Save Cue List saves your cue list to your "CueLists" folder. This folder is automatically generated when you bring the tox into your project. 
+
+Save As- make sure you put these inside of the cue list folder.
+
+### Settings - 
+
+
+
+
+
