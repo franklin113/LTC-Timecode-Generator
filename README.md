@@ -33,7 +33,7 @@ Shows you current timecode with an analog clock readout that noone asked for, bu
 
 ## Transport Window - 
 
-One the Left / Right buttons - 
+The Left / Right buttons - 
 
 Ctrl+click = 1 sec
 
