@@ -13,7 +13,7 @@ see:
 
 https://docs.derivative.ca/Palette:lister#Custom_Callbacks
 """
-
+import datetime
 from pprint import pprint
 '''
 
@@ -122,7 +122,25 @@ def onEditEnd(info):
 		# check if this is formatted right, if so, return
 
 		run('AutoCorrect("{}",{},{},"{}")'.format(timeString,info['row'],info['col'],info['prevText']),delayFrames = 1, fromOP = me)
+		run('CorrectTimeLogic({}, {}, "{}")'.format(info['row'], info['col'], info['prevText']), delayFrames = 1, fromOP = me)
 
+def CorrectTimeLogic(rowNum:int, colNum:int, prevText:str):
+	'''
+	Function used to assert startTime and endTime logic.
+	Incorrect logic will revert the startTime or endTime value to the previous value.
+	'''
+	endTimeIDX = list(Lister.Data[0].keys()).index('End Time')
+	startTimeIDX = list(Lister.Data[0].keys()).index('Start Time')
+	name, start, end, *rest = linkedTable.row(rowNum-1)
+	startTime = datetime.datetime.strptime(start.val, '%H:%M:%S:%f')
+	endTime = datetime.datetime.strptime(end.val, '%H:%M:%S:%f')
+
+	if colNum == endTimeIDX:
+		if endTime <= startTime:
+			linkedTable[rowNum-1, colNum] = prevText
+	elif colNum == startTimeIDX:
+		if startTime >= endTime:
+			linkedTable[rowNum-1, colNum] = prevText
 
 def AutoCorrect(timeString,row,col,prevText):
 			# (r'(\d\d)(\d)(:\d\d:\d\d:\d\d)', r'\1\3'),

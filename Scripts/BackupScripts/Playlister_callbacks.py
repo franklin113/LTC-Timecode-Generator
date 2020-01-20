@@ -39,7 +39,8 @@ from pprint import pprint
 # def onSelectRow(info):
 # 	print(info)
 
-selectedCue = mod.CueSelection.CueSelection()
+#selectedCue = mod.CueSelection.CueSelection()
+listerSelection = mod.CueSelection.CueSelection
 Playlister = parent.Playlist
 Lister = parent.Playlist.op('lister')
 timer = op('timer2')
@@ -49,45 +50,60 @@ linkedTable = Playlister.op('linkedTable')
 #assert timer
 import re
 
-timePattern = '\d\d:\d\d:\d\d:\d\d'
 
-digitFillPattern = [
-	r'\d\d:\d\d:\d\d'
-]
 
-singleDigitPat = ':(\d):'
+'''
+ 'rowData': OrderedDict([('Name', 'Cue 3 - Test'),
+                         ('Start Time', '05:00:00:00'),
+                         ('End Time', '05:00:12:00'),
+                         ('Loop', '0'),
+                         ('Go', '0'),
+                         ('rowObject',
+                          ['Cue 3 - Test',
+                           '05:00:00:00',
+                           '05:00:12:00',
+                           '0',
+                           '0'])])}
+
+'''
 
 def onClick(info):
-	pprint(info)
+	#pprint(info)
 	#pprint(info['rowData']['Name'])
 
-	row = info['row']
-	col = info['col']
+	row = int(info['row'])
+	col = int(info['col'])
 
 	if row >= 0 and col >= 0:
 
 		try:
-			selectedCue.Build(info['row'], info['col'], info['rowData'], info['cellText'])
+
+			cueSelection = mod.CueSelection.CueSelection(
+				info['rowData']['Start Time'],
+				info['rowData']['End Time'],
+				info['rowData']['Name'],
+				row,
+				col
+				)
+			
 			if Playlister.par.Debug:
-				selectedCue.Debug()
-			if int(col) == parent().RunRadio:
-			   # timer.par.initialize.pulse()
-				#timer.par.cycle = selectedCue.GetLoopState()
-			   # debug("Loop state: ", selectedCue.GetLoopState())
-				#timer.goTo(segment = -100 )#selectedCue.GetRowIndex())
-				Playlister.SetSegment(selectedCue.GetRowIndex())
-				#debug("Sending to the timer: ", selectedCue.GetRowIndex())
-				run("op('{myOP}').RadioPlay({val})".format(myOP = Playlister, val = selectedCue.GetRowIndex()), delayFrames = 1, fromOP = me)
+				debug(cueSelection)
+			runRadio = parent().RunRadio # the column that triggers cues
+			if int(col) == runRadio:
+
+				Playlister.SetSegment(cueSelection['row'])
+
+				run("op('{myOP}').RadioPlay({val})".format(myOP = Playlister, val = cueSelection['row']), delayFrames = 1, fromOP = me)
 
 				#run("op('{}').goTo(segment = {})".format(timer, selectedCue.GetRowIndex()),delayFrames = 1, fromO = me)
-				if selectedCue.GetName() == 'TOD':
+				if cueSelection['name'] == 'TOD':
 					timeOfDay = True
 				else:
 					timeOfDay = False
-				Playlister.TriggerTimecodeChange(selectedCue.GetStartTime(), TOD=timeOfDay)
+				Playlister.TriggerTimecodeChange(cueSelection['startTime'], TOD=timeOfDay)
 			
 			elif int(col) == parent().LoopCol:
-				run("op('{myOP}').ToggleLoop({val})".format(myOP = parent(), val = selectedCue.GetRowIndex()), delayFrames = 1, fromOP = me)
+				run("op('{myOP}').ToggleLoop({val})".format(myOP = parent(), val = cueSelection['row']), delayFrames = 1, fromOP = me)
 
 
 
@@ -97,7 +113,6 @@ def onClick(info):
 		pass
 
 def onEditEnd(info):
-
 	if info['col'] == 1 or info['col'] == 2:
 		
 	
@@ -106,66 +121,81 @@ def onEditEnd(info):
 
 		# check if this is formatted right, if so, return
 
-		match = re.match(timePattern,timeString)
-		if match:
-			#everything is ok, get out of here
-			return
-		run('AutoCorrect("{}",{},{})'.format(timeString,info['row'],info['col']),delayFrames = 1, fromOP = me)
+		run('AutoCorrect("{}",{},{},"{}")'.format(timeString,info['row'],info['col'],info['prevText']),delayFrames = 1, fromOP = me)
 
-def AutoCorrect(timeString,row,col):
-	print('running')
-	timePattern = r'\d\d:\d\d:\d\d:\d\d'
 
-	is4digits = r'(\d\d)(\d\d)$'		# is seconds and frames
-	is6digits = r'(\d\d)(\d\d)(\d\d)$'		# is seconds and frames
-
-	pat1 = r'\d\d'				# only has frames
-	pat2 = r'\d\d:\d\d'			# doesn't have hours or minutes
-	pat3 = r'\d\d:\d\d:\d\d'	# doesn't have hours
-	pat4 = r'\d'				# is only 1 digit long
-	pat5 = r':(\d)$'			# ends with :
-	pat6 = r'(\d)(\d\d)'		# 3 digits in a row
-	pat7 = r'^(\d):'			# starts with only one digit
-
-	singleDigitPat = r':(\d):'	# put only a single digit within : :
-
-	timeString = re.sub(pat7, r'0\1:',timeString)
-	timeString = re.sub(r'::', r':00:',timeString)
-
-	timeString = re.sub(is6digits, r'\1:\2:\3',timeString)	
-
-	timeString = re.sub(is4digits, r'\1:\2',timeString)	
-	print(timeString)
-	totalCount = 0
-	timeString = ''.join([x for x in timeString if x.isdigit() or x == ':'])
-	if len(timeString) > 0:
+def AutoCorrect(timeString,row,col,prevText):
+			# (r'(\d\d)(\d)(:\d\d:\d\d:\d\d)', r'\1\3'),
+		# 
+		# (r'(\d\d:\d\d:\d\d)(\d)(:\d\d)', r'\1\3'),
+	issues = [
 		
-		while Playlister.IsValidTimecode(timeString) == False and totalCount < 20:
-			#remove all letters
-			totalCount += 1
-
-			if timeString[0] == ':':
-				timeString = timeString[1:]
-
-			if re.fullmatch(r'\d\d:\d\d:\d\d',timeString):	# only MM:SS:FF
-				timeString = '00:' + timeString
-			elif re.fullmatch(r'\d\d:\d\d',timeString):		# only SS:FF
-				timeString = '00:00:' + timeString
-			elif re.fullmatch(r'\d\d', timeString):			# only FF
-				timeString = '00:00:00:' + timeString
-			elif re.fullmatch(r'\d', timeString):			# only single FF
-				timeString = '00:00:00:0' + timeString
+		(r'[^0-9^a-z]',':'),									# $ or anything
 
 
-			
-			# Lets check and see if there are any single digits around
-			timeString = re.sub(r':(\d):', r':0\1:',timeString)	# a single digit wrapped in colons
-			timeString = re.sub(r':(\d)$', r':0\1',timeString)	# a colon and single digit only at the end
-			
-			# fix including of three digits
-			#timeString = re.sub(r'(\d\d\d)', r'err',timeString)		# Three digits 
+		# -- 1h, 01h, 1m,01m,1s,01s,1f,01f
+		(r'^(\d)(h)$',						r'0\g<1>:00:00:00'),
+		(r'^(\d\d)(h)$',						r'\g<1>:00:00:00'),
+		(r'^(\d)(m)$',						r'00:0\g<1>:00:00'),
+		(r'^(\d\d)(m)$',						r'00:\g<1>:00:00'),
+
+		(r'^(\d)(s)$',						r'00:00:0\g<1>:00'),
+		(r'^(\d\d)(s)$',						r'00:\g<1>:00'),
+
+		(r'^(\d)(f)$',						r'00:00:00:0\g<1>'),
+		(r'^(\d\d)(f)$',						r'00:00:00:\g<1>'),
+		
+		# -- 1h30 ?m, 01h30 ?m
+
+		(r'^(\d)(h)(\d\d)(m)?',						r'0\g<1>:\g<3>:00:00'),
+		(r'^(\d\d)(h)(\d\d)(m)?',						r'\g<1>:\g<3>:00:00'),
 
 
-	
+
+		
+		(r'(\d\d:\d\d:\d\d:\d\d)(\d)', 	r'\1'), 
+		(r'(\d\d)(\d)(:\d\d:\d\d:\d\d)', 		r'\1\3'), 
+		(r'(\d\d:\d\d)(\d)(:\d\d:\d\d)', 		r'\1\3'),
+		(r'(\d\d:\d\d:\d\d)(\d)(:\d\d)', 		r'\1\3'),
+		
+		#(r'^(\d:)$'						r'00:00:0\g<1>0'),
+		(r'^(\d:\d\d)$',				r'00:00:0\1'),
+		(r'^(\d:)$',					r'00:00:0\g<1>00'),
+		(r'^(\d\d:)$',					r'00:00:\g<1>00'),
+		(r'^(\d\d:\d\d:)$',				r'00:\g<1>00'),
+		
+		(r'^(\d)$',						r'00:00:00:0\1'),
+		(r'^(\d\d)$',					r'00:00:00:\1'),
+		(r'^(\d)(\d\d)$',				r'00:00:0\1:\2'),
+		(r'^(\d\d)(\d\d)$',				r'00:00:\1:\2'),
+		(r'^(\d)(\d\d)(\d\d)$',			r'00:0\1:\2:\3'),
+		(r'^(\d\d)(\d\d)(\d\d)$',		r'00:\1:\2:\3'),
+		(r'^(\d)(\d\d)(\d\d)(\d\d)$',	r'0\1:\2:\3:\4'),
+		(r'^(\d\d)(\d\d)(\d\d)(\d\d)$',	r'\1:\2:\3:\4'),
+		(r'(\d\d)(\d\d)',				r'\1:\2'), 		# 3113
+		(r'^(\d\d:\d\d)$',				r'00:00:\1'),	# 41:34
+		(r'^(\d\d:\d\d:\d\d)$',			r'00:\1'),		# 14:65:14
+		(r'^(\d\d:\d\d:\d\d:)$',			r'\g<1>00'),# 14:65:14:
+
+		(r'(\d\d)(\d)(:\d\d:\d\d:\d\d)',	r'\1\3'),
+		(r'(\d)(\d\d:\d\d)',	r'00:0\1:\2')
+
+		]
+	count = 0
+	isProper = False
+	while count < 10 and isProper == False:
+		for i in issues:
+			timeString = re.sub(i[0], i[1],timeString)
+
+		mo = re.fullmatch(r'\d\d:\d\d:\d\d:\d\d',timeString)
+
+		if mo:
+			isProper = True
+			break
+
+		count += 1
+		
+	if isProper == False:
+		timeString = prevText
 
 	linkedTable[row-1,col] = timeString
