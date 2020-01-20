@@ -8,6 +8,7 @@ Here you can build out your cues. Add a new cue with the "New Cue" button. Set y
 There is some decent auto correct and some additional features for entering in time.
 
 A quick map of what you can enter - 
+
 1h = 01:00:00:00
 
 01h = 01:00:00:00
