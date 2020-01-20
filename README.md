@@ -53,6 +53,15 @@ Save As- make sure you put these inside of the cue list folder.
 
 ### Settings - 
 
+Edit Look - 
+
+Allows you to configure the color and look of most of the panels. I'd be cautious changing the colors during a show, personally.
+
+Audio Config - 
+
+The Active Toggle is read only because under the hood I'm using that whenever you pause or stop. TD continues to send timecode out even when you pause so this was the best solution.
+
+
 
 
 
