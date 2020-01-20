@@ -32,7 +32,11 @@ This shows your cue name and the countdown to 0.
 Shows you current timecode with an analog clock readout that noone asked for, but got anyway.
 
 ## Transport Window - 
+
 One the Left / Right buttons - 
+
 Ctrl+click = 1 sec
+
 Ctrl+shift+click = 5 sec
+
 Click = 10 sec
