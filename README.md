@@ -2,7 +2,7 @@
 
 To begin using this tool, create a new playlist (file->New) and add new cues. (New Cue Button)
 
-Cue List Window - 
+## Cue List Window - 
 
 Here you can build out your cues. Add a new cue with the "New Cue" button. Set your start and end time, decide if you want it to loop, and hit Go.
 There is some decent auto correct and some additional features for entering in time.
@@ -23,10 +23,10 @@ A quick map of what you can enter -
 
 Down the line...
 
-Countdown Window - 
+## Countdown Window - 
 
 This shows your cue name and the countdown to 0.
 
-Timecode Window - 
+## Timecode Window - 
 
 Shows you current timecode with an analog clock readout that noone asked for, but got anyway.
