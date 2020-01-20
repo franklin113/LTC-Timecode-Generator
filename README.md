@@ -4,7 +4,7 @@ To begin using this tool, create a new playlist (file->New) and add new cues. (N
 
 ## Cue List Window - 
 
-Here you can build out your cues. Add a new cue with the "New Cue" button. Set your start and end time, decide if you want it to loop, and hit Go.
+Here you can build out your cues. Add a new cue with the "New Cue" button. Set your start and end time, decide if you want it to loop, and hit Go.  Double clikc the name column to rename your cues.
 There is some decent auto correct and some additional features for entering in time.
 
 A quick map of what you can enter - 
