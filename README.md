@@ -25,6 +25,8 @@ Naming a cue TOD will begin timecode at the current TOD. This MIGHT drift out of
 
 Down the line...
 
+There's also a checker to esure you don't accidentally make the start time after the end time. (Thanks Brian!)
+
 ## Countdown Window - 
 
 This shows your cue name and the countdown to 0.
