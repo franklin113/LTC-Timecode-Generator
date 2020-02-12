@@ -2,6 +2,13 @@
 
 To begin using this tool, create a new playlist (file->New) and add new cues. (New Cue Button)
 
+## Release History - 
+
+### 1.03 
+Fixed an issue with icon usage on Mac os. Fixed a mac version issue with text slightly shifting due to auto sizing.
+
+
+
 ## Cue List Window - 
 
 Here you can build out your cues. Add a new cue with the "New Cue" button. Set your start and end time, decide if you want it to loop, and hit Go.  Double click the name column to rename your cues.
