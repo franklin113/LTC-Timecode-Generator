@@ -102,7 +102,7 @@ def onClick(info):
 			
 			elif int(col) == parent().LoopCol:
 				run("op('{myOP}').ToggleLoop({val})".format(myOP = parent(), val = cueSelection['row']), delayFrames = 1, fromOP = me)
-
+				
 
 
 		except Exception as e:

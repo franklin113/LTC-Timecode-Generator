@@ -60,7 +60,7 @@ def onSegmentEnter(timerOp, segment, interrupt):
 	
 def onSegmentExit(timerOp, segment, interrupt):
 	#debug("Segment: ", segment+2)
-	#Pl.Pause()
+	Pl.Pause(nextSegmentIsBeingFired = False)
 
 	return
 

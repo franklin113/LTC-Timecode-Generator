@@ -55,6 +55,9 @@ class ePl:
 		self.Transport = mod.Transport.Transport()
 		assert self.Transport
 
+		self.TransportOp = op.Transport
+		assert self.TransportOp
+
 		self.SumList = self.ownerComp.op('null_SumList')
 		assert self.SumList
 
@@ -62,16 +65,19 @@ class ePl:
 
 		self.PlayState = 0  # stopped, play, paused
 
+	
+
+
 	def ToggleLoop(self, row):
 
-		linkedTable = op('linkedTable')
-		LoopState = int(linkedTable[row,3].val)
+		
+		LoopState = int(self.LinkedTable[row,3].val)
 
 
 		#op('lister').par.Linkedtable = ''
-		linkedTable[row,3] = int(not LoopState)
+		self.LinkedTable[row,3] = int(not LoopState)
 		
-		self.Lister.par.Refresh.pulse()
+		#self.Lister.par.Refresh.pulse()
 		#op('lister').par.Linkedtable = self.LinkdTable.path
 
 	def RadioPlay(self, row , keepActive = False):
@@ -115,28 +121,35 @@ class ePl:
 		#debug(project.pythonStack())
 		self.TcOp.par.Play = False
 		self.Timer.par.play = False
-		self.Transport['stop'].click()
+		self.TransportOp.par.Radioindex = 0
 		self.PlayState = 0
+		self.OutputStatus = False
 		
 	def Start(self):
 		self.TcOp.par.Play = True
 		self.Timer.par.play = True
-		self.Transport['play'].click()
+		self.TransportOp.par.Radioindex = 1
 		self.PlayState = 1
+		self.OutputStatus = True
 
 	def Pause(self, nextSegmentIsBeingFired = True):
 		curSegment = int(self.Timer['segment'])
 		if nextSegmentIsBeingFired == False:
 			self.LinkedTable[curSegment,4] = 2
+			self.TransportOp.par.Radioindex = 2
+			self.TcOp.par.Outputstatus = False
 
-		self.Transport['pause'].click()
+		else:
+			self.LinkedTable[curSegment,4] = 1
+
+		
 		#print(project.pythonStack())
 		self.PlayState = 2
 
 	def Unpause(self):
 		curSegment = int(self.Timer['segment'])
 		self.LinkedTable[curSegment,self.RunRadio] = 1
-		print(self.LinkedTable[curSegment,4].val)
+		#print(self.LinkedTable[curSegment,4].val)
 		self.PlayState = 1
 
 
@@ -243,7 +256,7 @@ class ePl:
 	def SetSegment(self, segment):
 		self.Segment = int(segment)
 		self.Timer.goTo(segment = self.Segment)
-		self.ownerComp.op('lister').SetRowLook(self.Segment+1, 'rowSeg', True, 1010)
+		#self.ownerComp.op('lister').SetRowLook(self.Segment+1, 'rowSeg', True, 1010)
 		#stackprint(self.Segment)
 
 	def ScrubDo(self, direction, increment):
@@ -371,3 +384,11 @@ class ePl:
 		self.TcOp.par.Frame = val
 
 
+	@property
+	def OutputStatus(self):
+		return self.TcOp.par.OutputStatus
+
+	@OutputStatus.setter
+	def OutputStatus(self,val):
+		if parent.GUI.par.Outputenabled:
+			self.TcOp.par.Outputstatus = val
