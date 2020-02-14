@@ -124,16 +124,19 @@ class ePl:
 		self.Transport['play'].click()
 		self.PlayState = 1
 
-	def Pause(self):
+	def Pause(self, nextSegmentIsBeingFired = True):
 		curSegment = int(self.Timer['segment'])
-		self.LinkedTable[curSegment,4] = 2
-		self.Transport['pause'].click()
+		if nextSegmentIsBeingFired == False:
+			self.LinkedTable[curSegment,4] = 2
 
+		self.Transport['pause'].click()
+		#print(project.pythonStack())
 		self.PlayState = 2
 
 	def Unpause(self):
 		curSegment = int(self.Timer['segment'])
 		self.LinkedTable[curSegment,self.RunRadio] = 1
+		print(self.LinkedTable[curSegment,4].val)
 		self.PlayState = 1
 
 
@@ -177,7 +180,7 @@ class ePl:
 			hmsf = self.TcStringToTuple(timeString)
 		
 			self.Hour, self.Minute, self.Second, self.Frame = hmsf
-
+			#print(project.pythonStack())
 			self.TcOp.par.Resetpulse.pulse()
 
 	def TriggerTimecodeChangeWithFloats(self, hmsf):

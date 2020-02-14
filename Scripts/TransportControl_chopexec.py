@@ -29,7 +29,7 @@ def onOffToOn(channel, sampleIndex, val, prev):
 
 	elif channel.name == 'pause':
 		tc.par.Play = False
-		Pl.Pause()
+		Pl.Pause(nextSegmentIsBeingFired = False)
 		SetAudioState(False)
 
 	elif channel.name == 'start':
