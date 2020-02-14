@@ -10,32 +10,12 @@ tc = op.Tc
 Pl = op.Playlist
 Kb = op.Kb
 
-audioOp = op.Tc.op('audiodevout1')
+TcOp = op.Tc
 outputState = parent.GUI.par.Outputenabled
-
 def onOffToOn(channel, sampleIndex, val, prev):
 	
-	if channel.name == 'stop':
-		tc.par.Play = False
-		tc.par.Resetpulse.pulse()
-		Pl.ResetSegment()
-		SetAudioState(False)
 
-	elif channel.name == 'play':
-		tc.par.Play = True
-		Pl.Unpause()
-		SetAudioState(True)
-
-
-	elif channel.name == 'pause':
-		tc.par.Play = False
-		Pl.Pause()
-		SetAudioState(False)
-
-	elif channel.name == 'start':
-		tc.par.Resetpulse.pulse()
-
-	elif channel.name == 'left':
+	if channel.name == 'left':
 		increment = GetIncrement()
 		Pl.ScrubDo(-1, increment)
 		SetAudioState(False)
@@ -60,6 +40,28 @@ def whileOff(channel, sampleIndex, val, prev):
 
 def onValueChange(channel, sampleIndex, val, prev):
 
+	if channel.name == 'radio':
+		val = int(val)
+		if val == 0:
+			tc.par.Play = False
+			tc.par.Resetpulse.pulse()
+			Pl.ResetSegment()
+			SetAudioState(False)
+
+		elif val == 1:
+			tc.par.Play = True
+			Pl.Unpause()
+			SetAudioState(True)
+
+
+		elif val == 2:
+			tc.par.Play = False
+			Pl.Pause(nextSegmentIsBeingFired = False)
+			SetAudioState(False)
+
+
+
+
 	return
 	
 def GetIncrement():
@@ -81,8 +83,7 @@ def GetIncrement():
 	return increment
 
 def SetAudioState(state):
-	if not outputState.eval():
-		state = False
-	audioOp.par.active = state
+	TcOp.par.Outputstatus = state
+	
 		
 
