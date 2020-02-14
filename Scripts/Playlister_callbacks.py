@@ -73,7 +73,6 @@ def onClick(info):
 
 	row = int(info['row'])
 	col = int(info['col'])
-
 	if row >= 0 and col >= 0:
 
 		try:
@@ -88,11 +87,10 @@ def onClick(info):
 			
 			if Playlister.par.Debug:
 				debug(cueSelection)
-			runRadio = parent().RunRadio # the column that triggers cues
+			runRadio = 4 #parent().RunRadio # the column that triggers cues
 			if int(col) == runRadio:
 
 				Playlister.SetSegment(cueSelection['row'])
-
 				run("op('{myOP}').RadioPlay({val})".format(myOP = Playlister, val = cueSelection['row']), delayFrames = 1, fromOP = me)
 
 				#run("op('{}').goTo(segment = {})".format(timer, selectedCue.GetRowIndex()),delayFrames = 1, fromO = me)
@@ -104,7 +102,7 @@ def onClick(info):
 			
 			elif int(col) == parent().LoopCol:
 				run("op('{myOP}').ToggleLoop({val})".format(myOP = parent(), val = cueSelection['row']), delayFrames = 1, fromOP = me)
-
+				
 
 
 		except Exception as e:
