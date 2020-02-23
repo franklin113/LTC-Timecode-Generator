@@ -69,7 +69,9 @@ def onSetting(info):
 	elif info['item'] == 'Audio Config':
 		settingsMenu.par.Page = "parameter_audio" 
 		ToggleActive(settingsMenu, True)
-
+	elif info['item'] == 'Timecode Config':
+		settingsMenu.par.Page = "parameter_timecode" 
+		ToggleActive(settingsMenu, True)
 
 def onWindow(info):
 	item = info['item']
