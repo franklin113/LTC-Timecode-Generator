@@ -4,6 +4,9 @@ To begin using this tool, create a new playlist (file->New) and add new cues. (N
 
 ## Release History - 
 
+### 1.07
+Timecode readout is now substantially more efficient because the numbers are all using cache selects.  On startup, values 0-60 are stored in a cache top. The timecode readout as well as the countdown are simply retrieving these from cache. 
+
 ### 1.03 
 Fixed an issue with icon usage on Mac os. Fixed a mac version issue with text slightly shifting due to auto sizing.
 
