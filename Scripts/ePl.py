@@ -134,14 +134,16 @@ class ePl:
 
 	def Pause(self, nextSegmentIsBeingFired = True):
 		curSegment = int(self.Timer['segment'])
-		if nextSegmentIsBeingFired == False:
-			self.LinkedTable[curSegment,4] = 2
-			self.TransportOp.par.Radioindex = 2
-			self.TcOp.par.Outputstatus = False
+		try:
+			if nextSegmentIsBeingFired == False:
+				self.LinkedTable[curSegment,4] = 2
+				self.TransportOp.par.Radioindex = 2
+				self.TcOp.par.Outputstatus = False
 
-		else:
-			self.LinkedTable[curSegment,4] = 1
-
+			else:
+				self.LinkedTable[curSegment,4] = 1
+		except:
+			return
 		
 		#print(project.pythonStack())
 		self.PlayState = 2
