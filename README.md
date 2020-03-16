@@ -7,6 +7,8 @@ To begin using this tool, create a new playlist (file->New) and add new cues. (N
 ### 1.07
 Timecode readout is now substantially more efficient because the numbers are all using cache selects.  On startup, values 0-60 are stored in a cache top. The timecode readout as well as the countdown are simply retrieving these from cache. All four time values as well as the ':' are being merged within a single GLSL top so it's quite lightweight.
 
+Build 2020.20020 brought a bug that causes issue when you drag to resize panels so this feature has been disabled until it's resolved on the TD side.
+
 ### 1.03 
 Fixed an issue with icon usage on Mac os. Fixed a mac version issue with text slightly shifting due to auto sizing.
 
