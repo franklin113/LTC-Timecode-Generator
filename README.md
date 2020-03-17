@@ -8,6 +8,8 @@ The application also allows for a great deal of customizability- you can easily 
 To begin using this tool, create a new playlist (file->New) and add new cues. (New Cue Button)
 
 # Features
+- Cue list building
+-   Save cue lists to file
 
 
 
