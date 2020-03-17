@@ -1,6 +1,15 @@
 # LTC-Timecode-Generator
+The LTC Timecode Generator provides cue list building and playback. You can build lists of timecode ranges to run on command. 
+
+Audio device settings are easily accessable as a draggable panel. A global audio output toggle at the top allows for easy on/off. 
+
+The application also allows for a great deal of customizability- you can easily change the look of the UI via the Look Settings. 
 
 To begin using this tool, create a new playlist (file->New) and add new cues. (New Cue Button)
+
+# Features
+- dfsa
+
 
 ## Release History - 
 
