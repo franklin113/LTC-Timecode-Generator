@@ -9,9 +9,12 @@ To begin using this tool, create a new playlist (file->New) and add new cues. (N
 
 # Features
 - Cue list building
+  - Every cue is a named timecode range
   - Save cue lists to file
-
-
+  - Trigger these cues on demand with basic transport control
+- Real-time timecode generated in Touchdesigner
+- Timecode readout
+- Countdown timer to end of cue
 
 ## Release History - 
 
