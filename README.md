@@ -9,7 +9,7 @@ To begin using this tool, create a new playlist (file->New) and add new cues. (N
 
 # Features
 - Cue list building
--   Save cue lists to file
+  - Save cue lists to file
 
 
 
