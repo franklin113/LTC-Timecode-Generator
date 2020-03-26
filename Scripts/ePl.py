@@ -119,7 +119,10 @@ class ePl:
 
 	def Stop(self):
 		#debug(project.pythonStack())
-		self.TcOp.par.Play = False
+		#self.TcOp.par.Play = False
+		#run("op('{}').par.play = False".format(self.Timer), delayFrames = 1, fromOP = me)
+		self.Timer.par.cuepulse.pulse()
+		
 		self.Timer.par.play = False
 		self.TransportOp.par.Radioindex = 0
 		self.PlayState = 0
