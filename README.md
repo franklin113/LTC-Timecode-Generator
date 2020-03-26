@@ -1,4 +1,4 @@
-# LTC-Timecode-Generator
+# LTC-Timecode-Generator With Cue List Building
 
 To begin using this tool, create a new playlist (file->New) and add new cues. (New Cue Button)
 
