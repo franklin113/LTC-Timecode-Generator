@@ -33,7 +33,8 @@ class eSaver:
 		try:
 			os.mkdir(self.defaultFolder)
 		except FileExistsError:
-			print('Default folder has already been created')
+			pass
+			#print('Default folder has already been created')
 
 		self.PlaylistOP.par.Cuelistpath = self.defaultFolder
 		return self.defaultFolder
