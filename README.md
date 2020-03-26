@@ -4,6 +4,9 @@ To begin using this tool, create a new playlist (file->New) and add new cues. (N
 
 ## Release History - 
 
+### 1.08
+Timecode is even more efficient because it uses texture 3d top and a single GLSL top to do all compositing.  Updated Top Menu component and ensured functionality for 2020.20625.
+
 ### 1.07
 Timecode readout is now substantially more efficient because the numbers are all using cache selects.  On startup, values 0-60 are stored in a cache top. The timecode readout as well as the countdown are simply retrieving these from cache. All four time values as well as the ':' are being merged within a single GLSL top so it's quite lightweight.
 
